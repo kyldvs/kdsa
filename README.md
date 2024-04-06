@@ -1,7 +1,7 @@
 # `kdsa`
 
 [![crates.io badge](https://img.shields.io/crates/v/kdsa.svg)](ttps://crates.io/crates/kdsa)
-[![ci badge](https://github.com/kyldvs/dsa/actions/workflows/ci.yml/badge.svg)](https://github.com/kyldvs/dsa/actions)
+[![ci badge](https://github.com/kyldvs/kdsa/actions/workflows/ci.yml/badge.svg)](https://github.com/kyldvs/kdsa/actions)
 [![license badge](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 
 <br>
