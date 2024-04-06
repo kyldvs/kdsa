@@ -31,6 +31,12 @@ pub struct ViewMut<'a, T> {
   i: usize,
 }
 
+#[derive(Debug)]
+pub struct View<'a, T> {
+  tree: &'a BinaryTree<T>,
+  i: usize,
+}
+
 impl<T> Default for BinaryTree<T> {
   fn default() -> Self {
     Self {
@@ -48,6 +54,10 @@ impl<T> BinaryTree<T> {
     Self {
       map: HashMap::with_capacity(capacity),
     }
+  }
+
+  pub fn view(&self) -> View<T> {
+    View { tree: self, i: 1 }
   }
 
   pub fn view_mut(&mut self) -> ViewMut<T> {
@@ -104,6 +114,34 @@ impl<'a, T> ViewMut<'a, T> {
   }
 }
 
+impl<'a, T> View<'a, T> {
+  pub fn get(&self) -> Option<&T> {
+    self.tree.map.get(&self.i)
+  }
+
+  pub fn left(&'a self) -> Self {
+    Self {
+      tree: self.tree,
+      i: self.i * 2,
+    }
+  }
+
+  pub fn right(&'a self) -> Self {
+    Self {
+      tree: self.tree,
+      i: self.i * 2 + 1,
+    }
+  }
+
+  pub fn parent(&'a self) -> Self {
+    Self {
+      tree: self.tree,
+      // Cannot go up if already at the root. Just return the root again.
+      i: if self.i == 1 { self.i } else { self.i / 2 },
+    }
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use super::BinaryTree;
@@ -124,5 +162,33 @@ mod tests {
     let v = v.right();
     assert_eq!(Some("world"), v.get().copied());
     assert_eq!(2, t.len());
+  }
+
+  #[test]
+  fn it_works_view() {
+    let mut t = BinaryTree::<&str>::new();
+    assert_eq!(0, t.len());
+
+    // Add some items.
+    let mut view = t.view_mut();
+    let _ = view.set("hello");
+    let mut view = view.left();
+    let _ = view.set("world");
+    let mut view = view.right();
+    let _ = view.set("i'm");
+    let mut view = view.left();
+    let _ = view.set("a");
+    let mut view = view.parent();
+    let mut view = view.right();
+    let _ = view.set("tree");
+
+    assert_eq!(5, t.len());
+
+    let v = t.view();
+    assert_eq!(Some("hello"), v.get().copied());
+    assert_eq!(Some("world"), v.left().get().copied());
+    assert_eq!(Some("i'm"), v.left().right().get().copied());
+    assert_eq!(Some("a"), v.left().right().left().get().copied());
+    assert_eq!(Some("tree"), v.left().right().right().get().copied());
   }
 }
