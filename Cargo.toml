@@ -1,0 +1,15 @@
+[package]
+name = "kdsa"
+description = "Data Structures and Algorithms"
+authors = ["Kyle <hi@kyle.dev>"]
+version = "0.0.0"
+edition = "2021"
+license = "MIT"
+homepage = "https://github.com/kyldvs/dsa"
+
+[dependencies]
+
+[dev-dependencies]
+
+[lib]
+path = "src/lib.rs"

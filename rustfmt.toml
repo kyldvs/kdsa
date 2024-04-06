@@ -1,0 +1,7 @@
+edition = "2021"
+newline_style = "Unix"
+
+# Import organization
+imports_layout = "Vertical"
+imports_granularity = "Crate"
+group_imports = "One"
