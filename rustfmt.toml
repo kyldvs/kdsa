@@ -1,5 +1,7 @@
 edition = "2021"
 newline_style = "Unix"
+max_width = 80
+tab_spaces = 2
 
 # Import organization
 imports_layout = "Vertical"
